@@ -1,7 +1,7 @@
 FROM php:7.2-apache
 ENV TERM=xterm
 LABEL maintainer="Derek P Sifford <dereksifford@gmail.com>" \
-      version="0.17.0-php7.2"
+      version="1.0.0"
 
 # Install base requirements & sensible defaults + required PHP extensions
 RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list \
@@ -15,7 +15,7 @@ RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/s
         mariadb-client \
         unzip \
         sudo \
-        vim \
+        nano \
         zip \
     && DEBIAN_FRONTEND=noninteractive apt-get -t stretch-backports install -y \
         python-certbot-apache \
@@ -39,10 +39,11 @@ RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/s
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+COPY run.sh /run.sh
+
 # Install wp-cli, configure apache, add scripts, create install directory & symlink
 RUN curl -s \
         -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-        -o /run.sh https://raw.githubusercontent.com/visiblevc/wordpress-starter/master/run.sh \
     && chmod +x /usr/local/bin/wp /run.sh \
     && curl -s \
         https://raw.githubusercontent.com/wp-cli/wp-cli/master/utils/wp-completion.bash | \
