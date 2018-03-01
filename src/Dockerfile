@@ -53,8 +53,8 @@ RUN curl -s \
     && a2enmod rewrite expires \
     && service apache2 restart \
     && mkdir -p /app ~/.wp-cli \
-    && rm -fr /var/www/html \
-    && ln -s /app /var/www/html
+    && rm -fr /var/www/html/* \
+    && ln -s /app /var/www/html/himchistka
 
 WORKDIR /app
 EXPOSE 80 443
